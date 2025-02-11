@@ -33,13 +33,13 @@ app.get("/productsList", async(req,res)=>{
 
 
 //POST REQUEST
-app.post("/add", async(req,res)=>{
+app.post("/insert", async(req,res)=>{
     await client.connect();
     let result = await client.db("operations").collection("products").insertOne
     ({
-      "p_id":req.body.p_id,
+      "p_id":parseInt(req.body.p_id),
       "p_name":req.body.p_name,
-      "p_cost":req.body.p_cost,
+      "p_cost":parseInt(req.body.p_cost),
       "p_discount":req.body.p_discount,
     });
     //res.json(result);
@@ -60,8 +60,8 @@ app.put("/Update",async(req,res)=>{
  let result = await client.db("operations").collection("products").updateOne({"p_id":req.body.p_id},
  {$set:
     {"p_name":req.body.p_name,
-     "p_cost":req.body.p_cost,
-     "p_discount":req.body.p_discount
+     "p_cost":parseInt(req.body.p_cost),
+     "p_discount":parseInt(req.body.p_discount),
 }});
 
 //res.json(result);
@@ -79,8 +79,13 @@ else{
 
 //DELETE REQUEST
 app.delete("/delete",async(req,res)=>{
+    //const p_id = req.body.p_id
   await client.connect();
-  let result= await client.db("operations").collection("products").deleteOne({"p_id":req.body.p_id});
+  let result= await client.db("operations").collection("products").deleteOne
+  ({
+    "_id":res.body._id, 
+     "p_id":parseInt(req.body.p_id)
+    });
     //res.json(result);
     const {acknowledged} = result;
     if(acknowledged){
