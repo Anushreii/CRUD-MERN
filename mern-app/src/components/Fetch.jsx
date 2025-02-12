@@ -6,14 +6,15 @@ import {useNavigate} from 'react-router-dom';
 const Fetch = () => {
     const [product, setProduct] = useState([]);
     const navigate = useNavigate();
-    useEffect(()=>{
-        axios.get('http://localhost:6900/productsList').then((res)=>{
-          console.log(res.data);   
-           setProduct(res.data); 
-        }, (error)=>{
-            console.log(error);
-        })
-    },[])
+    const fetch = async()=>{
+       const res = await axios.get('http://localhost:6900/productsList');
+          const{data}=res;   
+           setProduct(data); 
+        }
+
+            useEffect(()=>{
+                fetch();
+            },[product]);
 
     const insert = ()=>{
         navigate("/insert");
@@ -21,8 +22,16 @@ const Fetch = () => {
 
     const edit_rec = (p_id, p_name, p_cost, p_discount )=>{
         console.log(p_id, p_name, p_cost, p_discount);
-        navigate(`/update/${p_id}/${p_name}/${p_cost}$/{p_discount}`);
+        navigate(`/update/${p_id}/${p_name}/${p_cost}/${p_discount}`);
     }
+ 
+    
+
+    const delete_rec =(p_id)=>{
+       const res = axios.delete('http://localhost:6900/delete', {"data":{"p_id":p_id}});
+       console.log(res);
+    }
+
 
     return(
         <>

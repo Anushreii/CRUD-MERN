@@ -9,6 +9,7 @@ const Master = () => {
             <Route path="/" element={<Fetch></Fetch>}></Route>
             <Route path="/insert" element={<Insert></Insert>}></Route>
             <Route path="/update/:p_id/:p_name/:p_cost/:p_discount" element={<Update></Update>}></Route>
+            {/* <Route path="/delete" element={<Delete></Delete>}></Route> */}
          </Routes>
         </>
     )

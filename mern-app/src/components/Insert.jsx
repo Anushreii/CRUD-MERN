@@ -35,19 +35,23 @@ const Insert = () => {
 
   return (
     <div>
-      <input type="number" ref={p_id} placeholder='enter product id' /> <br />
-      <br />
+      <fieldset>
+        <legend>Insert Product</legend>
 
-      <input type="text" ref={p_name} placeholder='enter product name' /> <br />
-      <br />
+        <input type="number" ref={p_id} placeholder='enter the id' />
+        <br /><br />
 
-      <input type="number" ref={p_cost} placeholder='enter product cost' /><br />
-      <br />
+        <input type="text" ref={p_name}  placeholder='enter product name'/>
+        <br /><br />
 
-      <input type="number" ref={p_discount} placeholder='enter product discount amount' /><br />
-      <br />
+        <input type="number" ref={p_cost} placeholder='enter product cost' />
+        <br /><br />
 
-      <button onClick={save}>Save</button>
+        <input type="number" ref={p_discount} placeholder='enter product discount' />
+        <br /><br />
+
+        <button onClick={save}>Save</button>
+      </fieldset>
     </div>
   )
 }

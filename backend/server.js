@@ -83,7 +83,6 @@ app.delete("/delete",async(req,res)=>{
   await client.connect();
   let result= await client.db("operations").collection("products").deleteOne
   ({
-    "_id":res.body._id, 
      "p_id":parseInt(req.body.p_id)
     });
     //res.json(result);
