@@ -21,7 +21,7 @@ const Fetch = () => {
     }
 
     const edit_rec = (p_id, p_name, p_cost, p_discount )=>{
-        console.log(p_id, p_name, p_cost, p_discount);
+       // console.log(p_id, p_name, p_cost, p_discount);
         navigate(`/update/${p_id}/${p_name}/${p_cost}/${p_discount}`);
     }
  

@@ -1,53 +1,48 @@
-import axios from 'axios';
-import React from 'react'
-import { useState, useRef } from 'react'
+ import axios from 'axios';
+ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
+ import { useParams } from "react-router-dom"
 
 const Update = () => {
-  const ref1 = useRef(null);
-  const ref2 = useRef(null);
-  const ref3 = useRef(null);
-  const ref4 = useRef(null);
-  const navigate = useNavigate();
-  const [product, setProduct]= useState([]);
-  const update = async()=>{
-    const result = await axios.put("http://localhost:6900/update",{
-      "p_id": ref1.current.value, "p_name": ref2.current.value, "p_cost": ref3.current.value, "p_discount" : ref4.current.value
-    })
-  
+  const navigate  = useNavigate();
+  const { p_id, p_name, p_cost, p_discount } = useParams();
+  console.log("Params:", { p_id, p_name, p_cost, p_discount });
 
-      const {message} = result.data;
-      if(message === "Product updated successfully"){
-        alert("product updated sucessfully");
-        navigate("/");
-      }
-      else{
-        navigate("/update");
-      }
-  
-  }
+   const  [product, setProduct] = useState({
+     "p_id":parseInt(p_id) || "" ,
+     "p_name":p_name || "",
+     "p_cost": parseInt(p_cost) || "",
+     "p_discount":parseInt(p_discount) || "" });
+
+     const submit_data = async(event)=>{
+      event.preventDefault();
+     // console.log(product);
+     const {data} = await axios.put("http://localhost:6900/update", product)
+     const {message} = data;
+     if(message === "Product updated successfully"){
+      navigate("/");
+     }else{
+      navigate("/update");
+     }
+ }
+     const func_one =(event)=>{
+      setProduct({...product,[event.target.name]: event.target.value});
+     }
 
   return (
     <div>
-        <fieldset>
-          <legend>Update Product</legend>
-
-          <input type="number" ref={ref1} placeholder='enter the product id' />
+      <form onSubmit={submit_data}>
+          <input type="number" name='p_id' value={product.p_id} onChange={func_one} />
           <br /><br />
-
-          <input type="name" ref={ref2} placeholder='enter product name' />
+          <input type="text" name='p_name' value={product.p_name} onChange={func_one} />
           <br /><br />
-
-          <input type="number" ref={ref3} placeholder='enter product cost' />
+          <input type="number" name='p_cost' value={product.p_cost} onChange={func_one} />
           <br /><br />
-
-          <input type="number" ref={ref4} placeholder='enter product discount'/>
+          <input type="number" name='p_discount' value={product.p_discount} onChange={func_one} />
           <br /><br />
-
-          <button onClick={update}>Update</button>
-        </fieldset>
+          <input type="submit" value={"Update"} />
+      </form>
     </div>
   )
 }
-
 export default Update
